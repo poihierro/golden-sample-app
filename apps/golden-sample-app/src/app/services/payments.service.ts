@@ -21,7 +21,7 @@ export class PaymentsService {
       },
     },
     batchBooking: false,
-    requestedExecutionDate: '23-02-2022',
+    requestedExecutionDate: '23-12-2022',
     paymentMode: 'SINGLE',
     paymentType: 'INTERNAL_TRANSFER',
     transferTransactionInformation: {
