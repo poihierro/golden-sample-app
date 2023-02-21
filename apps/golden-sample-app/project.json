@@ -89,7 +89,6 @@
     "e2e": {
       "executor": "@dot-build/serve-and-run-angular:run",
       "options": {
-        "devServerTarget": "golden-sample-app:serve",
         "command": "npx",
         "args": ["playwright", "test"]
       },

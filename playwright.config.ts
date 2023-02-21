@@ -1,17 +1,20 @@
 import {devices, PlaywrightTestConfig} from '@playwright/test';
 
 const config: PlaywrightTestConfig = {
+  globalSetup: require.resolve('./apps/golden-sample-app-e2e/global-setup'),
   webServer: {
     command: 'npm start',
     port: 4200,
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: !process.env['CI'],
   },
   testDir: './apps/golden-sample-app-e2e',
-  forbidOnly: !!process.env.CI,
+  forbidOnly: !!process.env['CI'],
   reporter: 'html',
   use: {
     baseURL: 'http://localhost:4200',
     trace: 'retain-on-failure',
+    headless: !process.env['HEADLESS'],
+    storageState: 'auth.json'
   },
   projects: [
     {name: 'chromium', use: {...devices['Desktop Chrome']}},
