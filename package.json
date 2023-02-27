@@ -18,6 +18,7 @@
     "affected:test": "nx affected:test",
     "xi18n": "ng extract-i18n golden-sample-app --output-path=apps/golden-sample-app/src/locale && xliffmerge --profile apps/golden-sample-app/src/xliffmerge.json nl-NL",
     "e2e": "nx e2e",
+    "e2e:codegen": "npx playwright codegen http://localhost:4200 --load-storage=auth.json",
     "lint": "nx run-many --all --target=lint",
     "format": "prettier --write \"{apps,libs}/**/*.{ts,md,html}\" \"!{apps,libs}/**/coverage\" ",
     "format:check": "prettier --list-different \"{apps,libs}/**/*.{ts,md}\" \"!{apps,libs}/**/coverage\""
