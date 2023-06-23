@@ -23,10 +23,8 @@ export class AnalyticsService extends TrackerHandler {
   sendRumEvent(event: TrackerEvent<string, TrackerEventPayload>): void {
     console.log('EVENT TRACKER', event);
 
-    this.rumEventsService
-      .sendRumEvent(event, 'action')
-      .subscribe((response) => {
-        console.log('Rum response', response);
-      });
+    this.rumEventsService.sendRumEvent(event).subscribe((response) => {
+      console.log('Rum response', response);
+    });
   }
 }
