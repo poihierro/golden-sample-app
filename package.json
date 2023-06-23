@@ -5,7 +5,7 @@
   "scripts": {
     "analyze": "webpack-bundle-analyzer dist/golden-sample-app/stats.json",
     "ng": "nx",
-    "start": "ng serve",
+    "start": "nx serve",
     "start:mocks": "nx serve -c=mocks",
     "start:nl": "ng serve golden-sample-app:serve:nl",
     "start:docker": "docker-compose up --build",
@@ -64,6 +64,7 @@
     "rxjs": "^7.8.0",
     "ts-morph": "^15.0.0",
     "tslib": "^2.3.0",
+    "uuid": "^9.0.0",
     "zone.js": "0.13.0"
   },
   "devDependencies": {
@@ -90,6 +91,7 @@
     "@schematics/angular": "16.0.4",
     "@types/jest": "29.4.4",
     "@types/node": "^14.14.33",
+    "@types/uuid": "^9.0.2",
     "@typescript-eslint/eslint-plugin": "^5.59.9",
     "@typescript-eslint/parser": "5.59.8",
     "eslint": "^8.31.0",

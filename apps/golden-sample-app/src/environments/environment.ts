@@ -24,6 +24,7 @@ export const environment: Environment = {
   common: {
     designSlimMode: false,
   },
+  rumEventKey: 'test',
 };
 
 export const authConfig: AuthConfig = {
