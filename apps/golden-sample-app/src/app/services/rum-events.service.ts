@@ -1,6 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { RUMEvent, RUMEventResponse } from '../model/rum.model';
+import {
+  PayLoadScreenResize,
+  PayLoadScreenView,
+  PayLoadUserAction,
+  RUMEvent,
+  RUMEventResponse,
+} from '../model/rum.model';
 import { Observable } from 'rxjs';
 import { v4 as uuidV4 } from 'uuid';
 import { environment } from '../../environments/environment';
@@ -37,11 +43,51 @@ export class RumEventsService {
         id: this.sessionId,
       },
       journey: event.journey,
-      payload: {
-        type: 'user-action',
-        name: event.name,
-        additions: event.payload,
-      },
+      payload: this.determinePayload(event),
+    };
+  }
+
+  private determinePayload(
+    event: TrackerEvent<string, TrackerEventPayload>
+  ): RUMEvent['payload'] {
+    if (event.name === 'screen-view') {
+      return this.screenViewEvent(event);
+    }
+
+    if (event.name === 'screen-resize') {
+      return this.screenResizeEvent(event);
+    }
+
+    return this.userActionEvent(event);
+  }
+
+  private userActionEvent(
+    event: TrackerEvent<string, TrackerEventPayload>
+  ): PayLoadUserAction {
+    return {
+      type: 'user-action',
+      name: event.name,
+      additions: event.payload,
+    };
+  }
+
+  private screenResizeEvent(
+    event: TrackerEvent<string, TrackerEventPayload>
+  ): PayLoadScreenResize {
+    const payload = event.payload as TrackerEventPayload;
+    return {
+      type: 'screen-resize',
+      width: payload['width'] as number,
+      height: payload['height'] as number,
+    };
+  }
+
+  private screenViewEvent(
+    event: TrackerEvent<string, TrackerEventPayload>
+  ): PayLoadScreenView {
+    return {
+      type: 'screen-view',
+      title: event.name,
     };
   }
 
