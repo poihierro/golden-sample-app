@@ -16,29 +16,22 @@ import {
   TrackerEvent,
   TrackerEventPayload,
 } from '@backbase/foundation-ang/observability';
-
 import packageInfo from 'package-json';
-
 @Injectable({
   providedIn: 'root',
 })
 export class RumEventsService {
-  readonly sessionId = `${uuidV4()}-${packageInfo.version}`;
-
+  readonly sessionId = `${uuidV4()}`;
+  readonly app_version = packageInfo.version;
+  readonly app_name = packageInfo.name;
+  readonly app_env = environment.production ? 'prod' : 'dev';
   constructor(private httpClient: HttpClient) {}
 
   private prepareEvent(
-    event: TrackerEvent<string, TrackerEventPayload>,
-    eventType: RUMEvent['name']
+    event: TrackerEvent<string, TrackerEventPayload>
   ): RUMEvent {
     return {
-      bb: {
-        version: 0,
-      },
       id: uuidV4(),
-      name: eventType,
-      appVersion: packageInfo.version,
-      env: environment.production ? 'prod' : 'dev',
       date: new Date().valueOf(),
       session: {
         type: 'USER',
@@ -48,23 +41,18 @@ export class RumEventsService {
       payload: this.determinePayload(event),
     };
   }
-
   private determinePayload(
     event: TrackerEvent<string, TrackerEventPayload>
   ): RUMEvent['payload'] {
     const payload = event.payload as TrackerEventPayload;
-
     if (event instanceof ScreenViewTrackerEvent) {
       return this.screenViewEvent(payload);
     }
-
     if (event instanceof ScreenResizeTrackerEvent) {
       return this.screenResizeEvent(payload);
     }
-
     return this.userActionEvent(payload);
   }
-
   private userActionEvent(payload: TrackerEventPayload): PayLoadUserAction {
     return {
       type: 'user-action',
@@ -72,7 +60,6 @@ export class RumEventsService {
       additions: payload,
     };
   }
-
   private screenResizeEvent(payload: TrackerEventPayload): PayLoadScreenResize {
     return {
       type: 'screen-resize',
@@ -80,7 +67,6 @@ export class RumEventsService {
       height: payload['height'] as number,
     };
   }
-
   private screenViewEvent(payload: TrackerEventPayload): PayLoadScreenView {
     return {
       type: 'screen-view',
@@ -88,15 +74,16 @@ export class RumEventsService {
       url: payload['url'] as string,
     };
   }
-
   sendRumEvent(
     event: TrackerEvent<string, TrackerEventPayload>
   ): Observable<RUMEventResponse> {
     return this.httpClient.post<RUMEventResponse>(
       `https://rum-collector.bartbase.com/api/v1/rum?bb-api-key=${
         environment.rumEventKey
-      }&bb-request-id=${uuidV4()}-${packageInfo.name}`,
-      [this.prepareEvent(event, 'action')]
+      }&bb-request-id=${uuidV4()}&bb-app-name=${this.app_name}&bb-app-version=${
+        this.app_version
+      }&bb-app-env=${this.app_env}`,
+      [this.prepareEvent(event)]
     );
   }
 }
