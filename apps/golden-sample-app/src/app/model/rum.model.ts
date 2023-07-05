@@ -27,15 +27,15 @@ export interface PayLoadUserAction {
 // https://rum-collector.bartbase.com/api/v1/rum/docs/rum-collector-client-api-v0.0.1.html#operation/collectRUM
 export interface RUMEvent {
   id: string;
-  journey?: string;
-  date?: number;
+  journey: string;
+  date: number;
   payload:
     | PayLoadResource
     | PayLoadScreenResize
     | PayLoadScreenView
     | PayLoadUserAction;
   session: {
-    type: 'USER';
+    type: 'user';
     id: string;
   };
 }

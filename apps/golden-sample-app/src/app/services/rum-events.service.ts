@@ -34,10 +34,10 @@ export class RumEventsService {
       id: uuidV4(),
       date: new Date().valueOf(),
       session: {
-        type: 'USER',
+        type: 'user',
         id: this.sessionId,
       },
-      journey: event.journey,
+      journey: event.journey != null ? event.journey : "unknown",
       payload: this.determinePayload(event),
     };
   }
@@ -74,9 +74,11 @@ export class RumEventsService {
       url: payload['url'] as string,
     };
   }
-  sendRumEvent(
-    event: TrackerEvent<string, TrackerEventPayload>
-  ): Observable<RUMEventResponse> {
+  sendRumEvent(event: TrackerEvent<string, TrackerEventPayload>): Observable<RUMEventResponse> {
+
+    if (!event.journey) {
+      event.journey = location.pathname
+    }
     return this.httpClient.post<RUMEventResponse>(
       `https://rum-collector.bartbase.com/api/v1/rum?bb-api-key=${
         environment.rumEventKey
