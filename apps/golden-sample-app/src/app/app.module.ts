@@ -44,6 +44,11 @@ import { LocaleSelectorModule } from './locale-selector/locale-selector.module';
 import { TrackerModule } from '@backbase/foundation-ang/observability';
 import { UserContextInterceptor } from './user-context/user-context.interceptor';
 import { ActivityMonitorModule } from './auth/activity-monitor';
+import {
+  CompositePropagatorModule,
+  OpenTelemetryInterceptorModule,
+  OtelColExporterModule
+} from "@jufab/opentelemetry-angular-interceptor";
 
 @NgModule({
   declarations: [AppComponent],
@@ -72,6 +77,22 @@ import { ActivityMonitorModule } from './auth/activity-monitor';
       handler: AnalyticsService,
     }),
     ActivityMonitorModule,
+    OpenTelemetryInterceptorModule.forRoot({
+      commonConfig: {
+        console: true, // Display trace on console (only in DEV env)
+        production: true, // Send Trace with BatchSpanProcessor (true) or SimpleSpanProcessor (false)
+        serviceName: 'Gold Bar', // Service name send in trace
+        probabilitySampler: '1',
+      },
+      otelcolConfig: {
+        url: 'https://botel.bartbase.com/v1/traces?bb-api-key=27d4d4ee-afc1-4190-adc4-b9d30d39badb', // URL of opentelemetry collector
+        // headers: {
+        //   "BB-App-Key": "27d4d4ee-afc1-4190-adc4-b9d30d39badb"
+        // }
+      },
+    }),
+    OtelColExporterModule,
+    CompositePropagatorModule
   ],
   providers: [
     ...(environment.mockProviders || []),
