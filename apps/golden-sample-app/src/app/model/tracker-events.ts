@@ -1,5 +1,6 @@
 import { UserActionTrackerEvent } from '@backbase/foundation-ang/observability';
 
+// step 4: create a new class that extends UserActionTrackerEvent
 export class AddToFavoritesTrackerEvent extends UserActionTrackerEvent<{
   payload: { accountId: string; accountName?: string };
 }> {

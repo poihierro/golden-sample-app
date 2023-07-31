@@ -44,7 +44,13 @@ export class MakeTransferViewComponent {
 
   submitTransfer(transfer: Transfer | undefined): void {
     if (transfer !== undefined) {
-      this.tracker?.publish(new TransferSubmitEvent({}));
+      // step 6: publish custom events
+      this.tracker?.publish(
+        new TransferSubmitEvent({
+          amount: transfer.amount,
+          message: 'Heya this is a custom payload hahahahahahaha....',
+        })
+      );
       this.transferStore.next(transfer);
       this.router.navigate(['../make-transfer-summary'], {
         relativeTo: this.route,

@@ -41,6 +41,7 @@ import { AuthEventsHandlerService } from './auth/auth-events-handler/auth-events
 import { AnalyticsService } from './services/analytics.service';
 import { AuthInterceptor } from './auth/interceptor/auth.interceptor';
 import { LocaleSelectorModule } from './locale-selector/locale-selector.module';
+// step 1: import the tracker module
 import { TrackerModule } from '@backbase/foundation-ang/observability';
 import { UserContextInterceptor } from './user-context/user-context.interceptor';
 import { ActivityMonitorModule } from './auth/activity-monitor';
@@ -68,6 +69,7 @@ import { ActivityMonitorModule } from './auth/activity-monitor';
     ButtonModule,
     IdentityAuthModule,
     TransactionSigningModule,
+    // step 2: import the tracker module & add the handler
     TrackerModule.forRoot({
       handler: AnalyticsService,
     }),

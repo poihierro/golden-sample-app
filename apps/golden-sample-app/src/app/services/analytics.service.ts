@@ -4,16 +4,18 @@ import { TrackerHandler } from '@backbase/foundation-ang/observability';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 declare const gtag: any;
 
-/* 
+/*
 This service will receive all the analytics events from your application and from here you can
 send all your tracker events to the analytics system (eg: google analytics/segment stc)
  */
 @Injectable()
 export class AnalyticsService extends TrackerHandler {
+  // step 3: implement the register method
   register(): void {
     this.tracker.subscribeAll((event) => {
       console.log('EVENT TRACKER', event);
 
+      //// step 7: send the events to the analytics system
       gtag('event', event.name, {
         event_category: event.type,
         event_label: event.name,
