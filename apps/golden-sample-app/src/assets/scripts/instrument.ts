@@ -4,17 +4,29 @@ import {
   ConsoleSpanExporter,
   SimpleSpanProcessor,
   BatchSpanProcessor,
+  TraceIdRatioBasedSampler,
 } from '@opentelemetry/sdk-trace-web';
 import { getWebAutoInstrumentations } from '@opentelemetry/auto-instrumentations-web';
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
 import { ZoneContextManager } from '@opentelemetry/context-zone';
+import { Resource } from '@opentelemetry/resources';
+import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
 
-export function instrumentOtel(
+export function instrumentOpentelemetry(
   apiKey: string,
   url: string,
   isProduction = false
 ) {
-  const provider = new WebTracerProvider();
+  const resource = Resource.default().merge(
+    new Resource({
+      [SemanticResourceAttributes.SERVICE_NAME]: 'Gold bar',
+    })
+  );
+
+  const provider = new WebTracerProvider({
+    resource,
+    sampler: new TraceIdRatioBasedSampler(1),
+  });
 
   const SpanProcessor = isProduction ? BatchSpanProcessor : SimpleSpanProcessor;
 
