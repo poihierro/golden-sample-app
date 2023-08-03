@@ -11,4 +11,6 @@ export interface Environment {
   mockProviders?: Provider[];
   mockEnabled?: boolean;
   common: sharedJourneyConfiguration;
+  bbApiKey: string;
+  otelURL: string;
 }
