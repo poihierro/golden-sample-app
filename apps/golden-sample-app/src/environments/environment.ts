@@ -24,6 +24,7 @@ export const environment: Environment = {
   common: {
     designSlimMode: false,
   },
+  isTracerEnabled: false,
   bbApiKey: '27d4d4ee-afc1-4190-adc4-b9d30d39badb',
   otelURL: 'https://botel.bartbase.com/v1/traces',
 };

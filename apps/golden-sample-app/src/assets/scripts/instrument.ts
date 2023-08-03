@@ -13,10 +13,16 @@ import { Resource } from '@opentelemetry/resources';
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
 
 export function instrumentOpentelemetry(
+  isTracerEnabled: boolean,
   apiKey: string,
   url: string,
   isProduction = false
 ) {
+  if (!isTracerEnabled) {
+    console.log('Tracer is disabled');
+    return;
+  }
+
   const resource = Resource.default().merge(
     new Resource({
       [SemanticResourceAttributes.SERVICE_NAME]: 'Gold bar',

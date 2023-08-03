@@ -44,9 +44,6 @@ import { LocaleSelectorModule } from './locale-selector/locale-selector.module';
 import { TrackerModule } from '@backbase/foundation-ang/observability';
 import { UserContextInterceptor } from './user-context/user-context.interceptor';
 import { ActivityMonitorModule } from './auth/activity-monitor';
-import { instrumentOpentelemetry } from '../assets/scripts/instrument';
-
-instrumentOpentelemetry(environment.bbApiKey, environment.otelURL);
 
 @NgModule({
   declarations: [AppComponent],
