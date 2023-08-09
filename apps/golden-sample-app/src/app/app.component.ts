@@ -8,6 +8,7 @@ import {
 } from '@backbase/foundation-ang/observability';
 import { environment } from '../environments/environment';
 import { instrumentOpentelemetry } from '../assets/scripts/instrument';
+import packageInfo from 'package-json';
 
 @Component({
   selector: 'app-root',
@@ -26,12 +27,15 @@ export class AppComponent {
     this.isAuthenticated =
       environment.mockEnabled ?? oAuthService.hasValidAccessToken();
 
-    instrumentOpentelemetry(
-      environment.isTracerEnabled,
-      environment.bbApiKey,
-      environment.otelURL,
-      environment.production
-    );
+    instrumentOpentelemetry({
+      appName: packageInfo.name,
+      appVersion: packageInfo.version,
+      apiKey: environment.bbApiKey as string,
+      env: 'local',
+      isProduction: false,
+      isTracerEnabled: true,
+      url: environment.otelURL as string,
+    });
   }
 
   logout(): void {
