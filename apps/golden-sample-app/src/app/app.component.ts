@@ -1,4 +1,4 @@
-import { Component, Optional } from '@angular/core';
+import { Component, OnInit, Optional } from '@angular/core';
 import { LayoutService } from '@backbase/ui-ang/layout';
 import { triplets } from './services/entitlementsTriplets';
 import { OAuthService } from 'angular-oauth2-oidc';
@@ -15,7 +15,7 @@ import packageInfo from 'package-json';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   triplets = triplets;
   isAuthenticated = false;
 
@@ -26,7 +26,9 @@ export class AppComponent {
   ) {
     this.isAuthenticated =
       environment.mockEnabled ?? oAuthService.hasValidAccessToken();
+  }
 
+  ngOnInit(): void {
     instrumentOpentelemetry({
       appName: packageInfo.name,
       appVersion: packageInfo.version,
