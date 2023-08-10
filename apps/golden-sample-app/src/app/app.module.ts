@@ -57,7 +57,7 @@ function initializeOtel(): Promise<void> {
       apiKey: environment.bbApiKey || '',
       env: 'local',
       isProduction: true,
-      isTracerEnabled: true,
+      isEnabled: environment.isTelemetryTracerEnabled || false,
       url: environment.telemetryCollectorURL || '',
     });
     resolve();

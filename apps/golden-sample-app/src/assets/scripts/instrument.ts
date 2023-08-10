@@ -19,7 +19,7 @@ export interface OpenTelemetryConfig {
   appVersion: string;
   appName: string;
   env?: Environments;
-  isTracerEnabled: boolean;
+  isEnabled: boolean;
   isProduction: boolean;
   url: string;
 }
@@ -27,7 +27,7 @@ export interface OpenTelemetryConfig {
 export function instrumentOpenTelemetry(
   opentelemetryConfig: OpenTelemetryConfig
 ) {
-  if (!opentelemetryConfig.isTracerEnabled) {
+  if (!opentelemetryConfig.isEnabled) {
     console.log('Tracer is disabled');
     return;
   }
