@@ -12,9 +12,9 @@ import { ZoneContextManager } from '@opentelemetry/context-zone';
 import { Resource } from '@opentelemetry/resources';
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
 
-type Environments = 'prd' | 'stg' | 'dev' | 'local' | 'mock';
+type Environments = 'prd' | 'stg' | 'dev' | 'local' | 'mock' | string;
 
-export interface OpentelemetryConfig {
+export interface OpenTelemetryConfig {
   apiKey: string;
   appVersion: string;
   appName: string;
@@ -24,8 +24,8 @@ export interface OpentelemetryConfig {
   url: string;
 }
 
-export function instrumentOpentelemetry(
-  opentelemetryConfig: OpentelemetryConfig
+export function instrumentOpenTelemetry(
+  opentelemetryConfig: OpenTelemetryConfig
 ) {
   if (!opentelemetryConfig.isTracerEnabled) {
     console.log('Tracer is disabled');
@@ -50,13 +50,12 @@ export function instrumentOpentelemetry(
     : SimpleSpanProcessor;
 
   // For demo purposes only, immediately log traces to the console
-  provider.addSpanProcessor(new SpanProcessor(new ConsoleSpanExporter()));
+  // provider.addSpanProcessor(new SpanProcessor(new ConsoleSpanExporter()));
 
   // Batch traces before sending them to backend server
   provider.addSpanProcessor(
-    new BatchSpanProcessor(
+    new SpanProcessor(
       new OTLPTraceExporter({
-        timeoutMillis: 1000,
         url: opentelemetryConfig.url,
         headers: {
           'BB-App-Key': opentelemetryConfig.apiKey,

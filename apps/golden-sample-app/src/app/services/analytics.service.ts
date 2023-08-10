@@ -8,7 +8,7 @@ import {
   UserActionTrackerEvent,
 } from '@backbase/foundation-ang/observability';
 
-import opentelemetry, { Span } from '@opentelemetry/api';
+import openTelemetry, { Span } from '@opentelemetry/api';
 
 /*
 This service will receive all the analytics events from your application and from here you can
@@ -16,19 +16,15 @@ send all your tracker events to the analytics system (eg: google analytics/segme
  */
 @Injectable()
 export class AnalyticsService extends TrackerHandler {
-  private tracer = opentelemetry.trace.getTracer('backbase-tracker-handler');
+  private tracer = openTelemetry.trace.getTracer('backbase-tracker-handler');
   register(): void {
     this.tracker.subscribeAll((event) => {
       console.log('EVENT TRACKER', event);
-
-      console.log('AnalyticsService.register', this.tracer);
-      const activeSpan = opentelemetry.trace.getActiveSpan();
+      const activeSpan = openTelemetry.trace.getActiveSpan();
       if (activeSpan) {
-        console.log('activeSpan', activeSpan);
         this.sendEvent(event, activeSpan);
       } else if (this.tracer) {
         this.tracer.startActiveSpan('backbase-tracker-handler', (span) => {
-          console.log('span', span);
           this.sendEvent(event, span);
           span.end();
         });
