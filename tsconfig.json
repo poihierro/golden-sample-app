@@ -18,7 +18,10 @@
     "skipLibCheck": true,
     "target": "es2017",
     "module": "es2020",
-    "lib": ["es2020", "dom"],
+    "lib": [
+      "es2020",
+      "dom"
+    ],
     "paths": {
       "@backbase-gsa/ach-positive-pay-journey": [
         "libs/ach-positive-pay-journey/shell/src/index.ts"

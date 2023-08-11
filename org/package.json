@@ -1,0 +1,21 @@
+{
+  "name": "org",
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {
+    "start": "nx serve",
+    "build": "nx build",
+    "test": "nx test"
+  },
+  "private": true,
+  "dependencies": {
+    "@nx/angular": "16.6.0"
+  },
+  "devDependencies": {
+    "@angular-devkit/core": "~16.1.0",
+    "@nx/workspace": "16.6.0",
+    "nx": "16.6.0",
+    "nx-cloud": "latest",
+    "typescript": "~5.1.3"
+  }
+}
